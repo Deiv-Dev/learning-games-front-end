@@ -1,0 +1,11 @@
+.card {
+  margin: 10px;
+  top: 20px;
+  &__text {
+    height: 20vh;
+    font-size: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
