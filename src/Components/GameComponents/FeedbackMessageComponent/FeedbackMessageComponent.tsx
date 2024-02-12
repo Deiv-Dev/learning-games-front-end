@@ -10,10 +10,10 @@ const FeedbackMessageComponent = ({
   isCorrect,
 }: FeedbackMessageComponentProps) => {
   return (
-    <div className="feedback__message">
+    <div className="feedback-message">
       {isCorrect === true && <img src={correct} alt="correct" />}
       {isCorrect === false && (
-        <img className="feedback__message__wrong" src={wrong} alt="wrong" />
+        <img className="feedback-message__wrong" src={wrong} alt="wrong" />
       )}
     </div>
   );

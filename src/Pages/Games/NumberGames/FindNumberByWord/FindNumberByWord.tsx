@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import CardComponents from "../../../../Components/GameComponents/CardComponents/CardComponents";
+import CardComponents from "../../../../Components/GameComponents/CardComponent/CardComponent";
 import {
   numbersToFindInWords,
   numbersToShowOnCards,
@@ -12,6 +12,8 @@ import {
 } from "../../../../Helpers/ArrayHelpers";
 import { getRandomLightColor } from "../../../../Helpers/RandomColorGenerator";
 import FeedbackMessageComponent from "../../../../Components/GameComponents/FeedbackMessageComponent/FeedbackMessageComponent";
+import ProgressComponent from "../../../../Components/GameComponents/ProgressComponent/ProgressComponent";
+import "./FindNumberByWordStyles.scss";
 
 function FindNumberByWord() {
   const [currentNumberToFind, setCurrentNumberToFind] = useState<number>(0);
@@ -46,6 +48,9 @@ function FindNumberByWord() {
       setIsAnswerCorrect(true);
       setTimeout(() => {
         setCurrentNumberToFind((prevNumber) => prevNumber + 1);
+        if (currentNumberToFind === 9) {
+          setCurrentNumberToFind(0);
+        }
         setIsAnswerCorrect(null);
       }, 500);
     } else {
@@ -57,7 +62,8 @@ function FindNumberByWord() {
   };
 
   return (
-    <>
+    <div className="find-numbers-game-background">
+      <ProgressComponent progress={currentNumberToFind * 10} />
       <Container>
         <Row>
           <Col
@@ -76,7 +82,7 @@ function FindNumberByWord() {
         />
       </Container>
       <FeedbackMessageComponent isCorrect={isAnswerCorrect} />
-    </>
+    </div>
   );
 }
 

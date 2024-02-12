@@ -1,5 +1,5 @@
 import { Row, Col } from "react-bootstrap";
-import "./CardComponentsStyle.scss";
+import "./CardComponentStyle.scss";
 
 interface CardComponentsProps {
   chunkedArray: number[][];
