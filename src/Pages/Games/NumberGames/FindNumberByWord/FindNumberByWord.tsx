@@ -1,18 +1,23 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
+
 import CardComponents from "../../../../Components/GameComponents/CardComponent/CardComponent";
+import FeedbackMessageComponent from "../../../../Components/GameComponents/FeedbackMessageComponent/FeedbackMessageComponent";
+import ProgressComponent from "../../../../Components/GameComponents/ProgressComponent/ProgressComponent";
+import GameOverComponent from "../../../../Components/GameComponents/GameOverComponent/GameOverComponent";
+
 import {
   numbersToFindInWords,
   numbersToShowOnCards,
 } from "./FindNumberByWordData";
+
 import {
   addCurrentAnswerToArray,
   chunkArrayToSmallerParts,
   shuffleArray,
 } from "../../../../Helpers/ArrayHelpers";
 import { getRandomLightColor } from "../../../../Helpers/RandomColorGenerator";
-import FeedbackMessageComponent from "../../../../Components/GameComponents/FeedbackMessageComponent/FeedbackMessageComponent";
-import ProgressComponent from "../../../../Components/GameComponents/ProgressComponent/ProgressComponent";
+
 import "./FindNumberByWordStyles.scss";
 
 function FindNumberByWord() {
@@ -25,6 +30,7 @@ function FindNumberByWord() {
     []
   );
   const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
+  const [gameOver, setGameOver] = useState<boolean>(false);
 
   useEffect(() => {
     setShuffledNumbersToShowOnCards(() => {
@@ -49,6 +55,7 @@ function FindNumberByWord() {
       setTimeout(() => {
         setCurrentNumberToFind((prevNumber) => prevNumber + 1);
         if (currentNumberToFind === 9) {
+          setGameOver(true);
           setCurrentNumberToFind(0);
         }
         setIsAnswerCorrect(null);
@@ -82,6 +89,7 @@ function FindNumberByWord() {
         />
       </Container>
       <FeedbackMessageComponent isCorrect={isAnswerCorrect} />
+      {gameOver === true && <GameOverComponent setGameOver={setGameOver} />}
     </div>
   );
 }
