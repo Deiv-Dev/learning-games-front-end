@@ -15,9 +15,10 @@ import {
   addCurrentAnswerToArray,
   chunkArrayToSmallerParts,
   shuffleArray,
-} from "../../../../Helpers/ArrayHelpers";
-import { getRandomLightColor } from "../../../../Helpers/RandomColorGenerator";
+} from "../../../../Helpers/ArrayHelper";
+import { getRandomLightColor } from "../../../../Helpers/RandomColorGeneratorHelper";
 
+import { startTimer, endTimer } from "../../../../Helpers/CountTimeHelper";
 import "./FindNumberByWordStyles.scss";
 
 function FindNumberByWord() {
@@ -31,6 +32,11 @@ function FindNumberByWord() {
   );
   const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
   const [gameOver, setGameOver] = useState<boolean>(false);
+  const [elapsedTime, setElapsedTime] = useState<string>("");
+
+  useEffect(() => {
+    startTimer();
+  }, []);
 
   useEffect(() => {
     setShuffledNumbersToShowOnCards(() => {
@@ -56,6 +62,7 @@ function FindNumberByWord() {
         setCurrentNumberToFind((prevNumber) => prevNumber + 1);
         if (currentNumberToFind === 9) {
           setGameOver(true);
+          setElapsedTime(endTimer());
           setCurrentNumberToFind(0);
         }
         setIsAnswerCorrect(null);
@@ -89,7 +96,13 @@ function FindNumberByWord() {
         />
       </Container>
       <FeedbackMessageComponent isCorrect={isAnswerCorrect} />
-      {gameOver === true && <GameOverComponent setGameOver={setGameOver} />}
+      {gameOver === true && (
+        <GameOverComponent
+          setGameOver={setGameOver}
+          elapsedTime={elapsedTime}
+          startTimer={startTimer}
+        />
+      )}
     </div>
   );
 }

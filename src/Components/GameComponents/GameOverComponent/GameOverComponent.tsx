@@ -5,11 +5,18 @@ import { Link } from "react-router-dom";
 
 interface GameOverComponentProps {
   setGameOver: React.Dispatch<React.SetStateAction<boolean>>;
+  elapsedTime: string;
+  startTimer: () => void;
 }
 
-const GameOverComponent = ({ setGameOver }: GameOverComponentProps) => {
+const GameOverComponent = ({
+  setGameOver,
+  elapsedTime,
+  startTimer,
+}: GameOverComponentProps) => {
   const handlePlayAgain = (): void => {
     setGameOver(false);
+    startTimer();
   };
 
   return (
@@ -40,7 +47,7 @@ const GameOverComponent = ({ setGameOver }: GameOverComponentProps) => {
           </Col>
           <Col>
             <p>Laikas</p>
-            <p>1:40s</p>
+            <p>{elapsedTime}</p>
           </Col>
           <Col>
             <p>Taskai</p>
