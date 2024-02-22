@@ -56,9 +56,6 @@ const GameOverComponent = ({
         </Row>
         <Row className="game-over__row">
           <Col>
-            <Button variant="primary">Ziureti taskus</Button>
-          </Col>
-          <Col>
             <Button onClick={() => handlePlayAgain()} variant="success">
               Zaisti dar karta
             </Button>

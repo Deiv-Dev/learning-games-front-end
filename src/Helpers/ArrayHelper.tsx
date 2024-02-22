@@ -1,5 +1,5 @@
 export function chunkArrayToSmallerParts(
-  arrayToSplitToChunks: number[],
+  arrayToSplitToChunks: Array<string | number>,
   howManyValuesInChunk: number
 ): number[][] {
   return Array.from(
@@ -11,10 +11,12 @@ export function chunkArrayToSmallerParts(
         index * howManyValuesInChunk,
         (index + 1) * howManyValuesInChunk
       )
-  );
+  ) as number[][];
 }
 
-export function shuffleArray(arrayToShuffle: number[]): number[] {
+export function shuffleArray(
+  arrayToShuffle: Array<string | number>
+): Array<string | number> {
   const shuffledArray = [...arrayToShuffle];
   for (let i = shuffledArray.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -24,14 +26,16 @@ export function shuffleArray(arrayToShuffle: number[]): number[] {
 }
 
 export function addCurrentAnswerToArray(
-  valuesInArray: number[],
-  valueToFindInArray: number
-): number[] {
-  const valuesExistInArray = valuesInArray.includes(valueToFindInArray + 1);
-
-  if (!valuesExistInArray) {
-    const randomIndex = Math.floor(Math.random() * valuesInArray.length - 1);
-    valuesInArray[randomIndex] = valueToFindInArray + 1;
+  valuesInArray: Array<string | number>,
+  valueToFindInArray: number | string
+): Array<string | number> {
+  if (valuesInArray.includes(valueToFindInArray)) {
+    return valuesInArray;
   }
+
+  const randomIndex = Math.floor(Math.random() * valuesInArray.length);
+
+  valuesInArray[randomIndex] = valueToFindInArray;
+
   return valuesInArray;
 }

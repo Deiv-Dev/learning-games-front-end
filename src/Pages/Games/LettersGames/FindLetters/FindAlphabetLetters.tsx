@@ -6,10 +6,7 @@ import FeedbackMessageComponent from "../../../../Components/GameComponents/Feed
 import ProgressComponent from "../../../../Components/GameComponents/ProgressComponent/ProgressComponent";
 import GameOverComponent from "../../../../Components/GameComponents/GameOverComponent/GameOverComponent";
 
-import {
-  numbersToFindInWords,
-  numbersToShowOnCards,
-} from "./FindNumberByWordData";
+import { alphabet } from "./FindAlphabetLettersData";
 
 import {
   addCurrentAnswerToArray,
@@ -17,15 +14,15 @@ import {
   shuffleArray,
 } from "../../../../Helpers/ArrayHelper";
 import { getRandomLightColor } from "../../../../Helpers/RandomColorGeneratorHelper";
-
 import { startTimer, endTimer } from "../../../../Helpers/CountTimeHelper";
-import "./FindNumberByWordStyles.scss";
+import "./FindAlphabetLettersStyles.scss";
 
-function FindNumberByWord() {
-  const [currentNumberToFind, setCurrentNumberToFind] = useState<number>(0);
-  const [shuffledNumbersToShowOnCards, setShuffledNumbersToShowOnCards] =
+function FindAlphabetLetters() {
+  const [currentLetterIndexToFind, setCurrentLetterIndexToFind] =
+    useState<number>(0);
+  const [shuffledLettersToShowOnCards, setShuffledLettersToShowOnCards] =
     useState<Array<string | number>>([]);
-  const [chunkedNumbersToShowOnCards, setChunkedNumbersToShowOnCards] =
+  const [chunkedLettersToShowOnCards, setChunkedLettersToShowOnCards] =
     useState<number[][]>([]);
   const [cardsBackgroundColors, setCardsBackgroundColors] = useState<string[]>(
     []
@@ -39,34 +36,34 @@ function FindNumberByWord() {
   }, []);
 
   useEffect(() => {
-    setShuffledNumbersToShowOnCards(() => {
-      const shuffledNumbers = shuffleArray(numbersToShowOnCards).slice(0, 9);
+    setShuffledLettersToShowOnCards(() => {
+      const shuffledLetters = shuffleArray(alphabet).slice(0, 9);
       return addCurrentAnswerToArray(
-        shuffledNumbers,
-        numbersToShowOnCards[currentNumberToFind]
+        shuffledLetters,
+        alphabet[currentLetterIndexToFind]
       );
     });
 
     setCardsBackgroundColors(
       Array.from({ length: 9 }, () => getRandomLightColor())
     );
-  }, [currentNumberToFind]);
+  }, [currentLetterIndexToFind]);
 
   useEffect(() => {
-    setChunkedNumbersToShowOnCards(() =>
-      chunkArrayToSmallerParts(shuffledNumbersToShowOnCards, 3)
+    setChunkedLettersToShowOnCards(() =>
+      chunkArrayToSmallerParts(shuffledLettersToShowOnCards, 3)
     );
-  }, [shuffledNumbersToShowOnCards]);
+  }, [shuffledLettersToShowOnCards]);
 
   const handleCardClick = (card: string | number): void => {
-    if (currentNumberToFind + 1 === card) {
+    if (alphabet[currentLetterIndexToFind] === card) {
       setIsAnswerCorrect(true);
       setTimeout(() => {
-        setCurrentNumberToFind((prevNumber) => prevNumber + 1);
-        if (currentNumberToFind === 9) {
+        setCurrentLetterIndexToFind((prevNumber) => prevNumber + 1);
+        if (currentLetterIndexToFind === alphabet.length - 1) {
           setGameOver(true);
           setElapsedTime(endTimer());
-          setCurrentNumberToFind(0);
+          setCurrentLetterIndexToFind(0);
         }
         setIsAnswerCorrect(null);
       }, 500);
@@ -79,21 +76,21 @@ function FindNumberByWord() {
   };
 
   return (
-    <div className="find-numbers-game-background">
-      <ProgressComponent progress={currentNumberToFind * 10} />
+    <div className="find-alphabet-letters-game-background">
+      <ProgressComponent
+        progress={(currentLetterIndexToFind / alphabet.length) * 100}
+      />
       <Container>
         <Row>
           <Col
             className="card"
             style={{ backgroundColor: "rgb(151, 212, 159)" }}
           >
-            <p className="card__text">
-              {numbersToFindInWords[currentNumberToFind]}
-            </p>
+            <p className="card__text">{alphabet[currentLetterIndexToFind]}</p>
           </Col>
         </Row>
         <CardComponents
-          chunkedArray={chunkedNumbersToShowOnCards}
+          chunkedArray={chunkedLettersToShowOnCards}
           cardsBackgroundColors={cardsBackgroundColors}
           handleCardClick={handleCardClick}
         />
@@ -110,4 +107,4 @@ function FindNumberByWord() {
   );
 }
 
-export default FindNumberByWord;
+export default FindAlphabetLetters;

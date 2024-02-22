@@ -4,7 +4,7 @@ import "./CardComponentStyle.scss";
 interface CardComponentsProps {
   chunkedArray: number[][];
   cardsBackgroundColors: string[];
-  handleCardClick: (card: number) => void;
+  handleCardClick: (card: string | number) => void;
 }
 
 const CardComponents = ({
