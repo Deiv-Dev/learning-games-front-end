@@ -38,6 +38,13 @@ function HomePage() {
               </Button>
             </Link>
           </Col>
+          <Col className="select-game__selector">
+            <Link to="/find-picture-by-word">
+              <Button className="slect-game__text" variant="primary">
+                Žaidimai su nuotraukomis
+              </Button>
+            </Link>
+          </Col>
         </Row>
       </Container>
     </div>
