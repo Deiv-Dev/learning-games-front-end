@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import HomePage from "./Pages/Home/HomePage";
 import FindNumberByWord from "./Pages/Games/NumberGames/FindNumberByWord/FindNumberByWord";
 import FindAlphabetLetters from "./Pages/Games/LettersGames/FindLetters/FindAlphabetLetters";
+import FindPicturesByWord from "./Pages/Games/PicturesGames/FindPictureByWord/FindPictureByWord";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           path="/find-alphabet-letters"
           element={<FindAlphabetLetters />}
         />
+        <Route path="/find-picture-by-word" element={<FindPicturesByWord />} />
       </Routes>
     </Router>
   );

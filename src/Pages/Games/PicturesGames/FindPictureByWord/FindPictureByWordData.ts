@@ -1,3 +1,9 @@
-export const picturesToFindInWords:string[] = [
+export const picturesToFindKitchen:string[] = [
     'peilis',
-    'sakute'];
+    'sakute'
+];
+
+export const picturesToFindLivingRoom:string[] = [
+    'televizorius',
+    'stalas'
+];
