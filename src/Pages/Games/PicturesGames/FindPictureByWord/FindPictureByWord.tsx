@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   picturesToFindKitchen,
@@ -11,26 +11,9 @@ import FeedbackMessageComponent from "../../../../Components/GameComponents/Feed
 import GameOverComponent from "../../../../Components/GameComponents/GameOverComponent/GameOverComponent";
 import { startTimer } from "../../../../Helpers/CountTimeHelper";
 
-const images = (require as any).context(
-  "../../../../Images/FindPictureByWord",
-  false,
-  /\.(png|jpe?|svg)$/
-);
-
-console.log("Found Images:", images.keys());
-
-// Define a type for the image map
 interface ImageMap {
   [key: string]: string;
 }
-
-// Create a map of image names to paths
-const imageMap: ImageMap = {};
-images.keys().forEach((item: string) => {
-  const key = item.replace("./", "").replace(/\.(png|jpe?g|svg)$/, "");
-  imageMap[key] = images(item).default;
-});
-
 function FindPicturesByWord() {
   const [pictureListSelected, setPictureListSelected] = useState<Array<string>>(
     []
@@ -43,9 +26,29 @@ function FindPicturesByWord() {
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [elapsedTime, setElapsedTime] = useState<string>("");
 
+  const [imageMap, setImageMap] = useState<ImageMap>({});
+
+  useEffect(() => {
+    const loadImages = async () => {
+      const images: ImageMap = {}; // Explicitly type the object
+      for (const name of picturesToFindKitchen) {
+        try {
+          const image = await import(
+            `../../../../Images/FindPictureByWord/${name}.jpg`
+          );
+          images[name] = image.default;
+        } catch (error) {
+          console.error(`Image not found for ${name}`, error);
+        }
+      }
+      setImageMap(images);
+    };
+
+    loadImages();
+  }, []);
+
   function selectList(listSelected: string[]): void {
     setPictureListSelected(listSelected);
-    console.log("Image Map:", imageMap);
   }
 
   return (
@@ -93,9 +96,13 @@ function FindPicturesByWord() {
                     }
                   </p>
                   <div>
-                    {pictureListSelected.map((name, index) => (
-                      <img key={index} src={imageMap[name]} alt={name} />
-                    ))}
+                    {pictureListSelected.map((name, index) =>
+                      imageMap[name] ? (
+                        <img key={index} src={imageMap[name]} alt={name} />
+                      ) : (
+                        <p key={index}>Image not found for {name}</p>
+                      )
+                    )}
                   </div>
                 </Col>
               </Row>
