@@ -1,6 +1,14 @@
 export const picturesToFindKitchen:string[] = [
+    'bliudas',
+    'lekste',
+    'mikrobange',
+    'orkaite',
     'peilis',
-    'sakute'
+    'puodelis',
+    'sakute',
+    'saldytuvas',
+    'saukstas',
+    'stikline'
 ];
 
 export const picturesToFindLivingRoom:string[] = [

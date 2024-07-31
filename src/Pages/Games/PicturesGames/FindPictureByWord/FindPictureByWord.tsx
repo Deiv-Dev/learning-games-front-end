@@ -11,6 +11,26 @@ import FeedbackMessageComponent from "../../../../Components/GameComponents/Feed
 import GameOverComponent from "../../../../Components/GameComponents/GameOverComponent/GameOverComponent";
 import { startTimer } from "../../../../Helpers/CountTimeHelper";
 
+const images = (require as any).context(
+  "../../../../Images/FindPictureByWord",
+  false,
+  /\.(png|jpe?|svg)$/
+);
+
+console.log("Found Images:", images.keys());
+
+// Define a type for the image map
+interface ImageMap {
+  [key: string]: string;
+}
+
+// Create a map of image names to paths
+const imageMap: ImageMap = {};
+images.keys().forEach((item: string) => {
+  const key = item.replace("./", "").replace(/\.(png|jpe?g|svg)$/, "");
+  imageMap[key] = images(item).default;
+});
+
 function FindPicturesByWord() {
   const [pictureListSelected, setPictureListSelected] = useState<Array<string>>(
     []
@@ -25,6 +45,7 @@ function FindPicturesByWord() {
 
   function selectList(listSelected: string[]): void {
     setPictureListSelected(listSelected);
+    console.log("Image Map:", imageMap);
   }
 
   return (
@@ -71,6 +92,11 @@ function FindPicturesByWord() {
                       ]
                     }
                   </p>
+                  <div>
+                    {pictureListSelected.map((name, index) => (
+                      <img key={index} src={imageMap[name]} alt={name} />
+                    ))}
+                  </div>
                 </Col>
               </Row>
             </Container>
