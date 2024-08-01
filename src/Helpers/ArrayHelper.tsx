@@ -14,6 +14,22 @@ export function chunkArrayToSmallerParts(
   ) as number[][];
 }
 
+export function chunkStringArrayToSmallerParts(
+  arrayToSplitToChunks: string[],
+  howManyValuesInChunk: number
+): string[][] {
+  return Array.from(
+    {
+      length: Math.ceil(arrayToSplitToChunks.length / howManyValuesInChunk),
+    },
+    (_, index) =>
+      arrayToSplitToChunks.slice(
+        index * howManyValuesInChunk,
+        (index + 1) * howManyValuesInChunk
+      )
+  );
+}
+
 export function shuffleArray(
   arrayToShuffle: Array<string | number>
 ): Array<string | number> {

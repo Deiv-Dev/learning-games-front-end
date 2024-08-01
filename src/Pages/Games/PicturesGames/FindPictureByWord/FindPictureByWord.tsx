@@ -10,6 +10,12 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import FeedbackMessageComponent from "../../../../Components/GameComponents/FeedbackMessageComponent/FeedbackMessageComponent";
 import GameOverComponent from "../../../../Components/GameComponents/GameOverComponent/GameOverComponent";
 import { startTimer } from "../../../../Helpers/CountTimeHelper";
+import {
+  chunkArrayToSmallerParts,
+  chunkStringArrayToSmallerParts,
+} from "../../../../Helpers/ArrayHelper";
+
+import "./FindPictureByWordStyles.scss";
 
 interface ImageMap {
   [key: string]: string;
@@ -18,6 +24,9 @@ function FindPicturesByWord() {
   const [pictureListSelected, setPictureListSelected] = useState<Array<string>>(
     []
   );
+  const [chunkedImagesToShowOnCards, setChunkedImagesToShowOnCards] = useState<
+    string[][]
+  >([]);
   const [curentPictureToFind, setCurentPictureToFind] = useState<string>("");
   const [shuffledPicturesToShowOnCards, setShuffledPicturesToShowOnCards] =
     useState<Array<string>>([]);
@@ -30,7 +39,7 @@ function FindPicturesByWord() {
 
   useEffect(() => {
     const loadImages = async () => {
-      const images: ImageMap = {}; // Explicitly type the object
+      const images: ImageMap = {};
       for (const name of picturesToFindKitchen) {
         try {
           const image = await import(
@@ -47,8 +56,20 @@ function FindPicturesByWord() {
     loadImages();
   }, []);
 
+  useEffect(() => {
+    const chunks = chunkStringArrayToSmallerParts(
+      pictureListSelected as string[],
+      3
+    );
+    setChunkedImagesToShowOnCards(chunks);
+  }, [pictureListSelected]);
+
   function selectList(listSelected: string[]): void {
     setPictureListSelected(listSelected);
+  }
+
+  function handleCardClick(pictureName: string) {
+    console.log(pictureName);
   }
 
   return (
@@ -95,17 +116,28 @@ function FindPicturesByWord() {
                       ]
                     }
                   </p>
-                  <div>
-                    {pictureListSelected.map((name, index) =>
-                      imageMap[name] ? (
-                        <img key={index} src={imageMap[name]} alt={name} />
-                      ) : (
-                        <p key={index}>Image not found for {name}</p>
-                      )
-                    )}
-                  </div>
                 </Col>
               </Row>
+              <div className="image-grid-container">
+                {chunkedImagesToShowOnCards.map(
+                  (row: string[], rowIndex: number) => (
+                    <Row className="image-grid-row" key={`row-${rowIndex}`}>
+                      {row.map((name: string, colIndex: number) => (
+                        <Col
+                          key={`col-${colIndex}`}
+                          className="image-grid-item"
+                        >
+                          {imageMap[name] ? (
+                            <img src={imageMap[name]} alt={name} />
+                          ) : (
+                            <p>Image not found for {name}</p>
+                          )}
+                        </Col>
+                      ))}
+                    </Row>
+                  )
+                )}
+              </div>
             </Container>
             <FeedbackMessageComponent isCorrect={isAnswerCorrect} />
             {gameOver === true && (
