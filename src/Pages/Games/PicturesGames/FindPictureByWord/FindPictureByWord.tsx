@@ -9,10 +9,10 @@ import ProgressComponent from "../../../../Components/GameComponents/ProgressCom
 import { Button, Col, Container, Row } from "react-bootstrap";
 import FeedbackMessageComponent from "../../../../Components/GameComponents/FeedbackMessageComponent/FeedbackMessageComponent";
 import GameOverComponent from "../../../../Components/GameComponents/GameOverComponent/GameOverComponent";
-import { startTimer } from "../../../../Helpers/CountTimeHelper";
+import { endTimer, startTimer } from "../../../../Helpers/CountTimeHelper";
 import {
-  chunkArrayToSmallerParts,
   chunkStringArrayToSmallerParts,
+  shuffleArray,
 } from "../../../../Helpers/ArrayHelper";
 
 import "./FindPictureByWordStyles.scss";
@@ -21,15 +21,16 @@ interface ImageMap {
   [key: string]: string;
 }
 function FindPicturesByWord() {
-  const [pictureListSelected, setPictureListSelected] = useState<Array<string>>(
-    []
-  );
+  const [pictureListSelected, setPictureListSelected] = useState<
+    Array<string | number>
+  >([]);
   const [chunkedImagesToShowOnCards, setChunkedImagesToShowOnCards] = useState<
     string[][]
   >([]);
-  const [curentPictureToFind, setCurentPictureToFind] = useState<string>("");
-  const [shuffledPicturesToShowOnCards, setShuffledPicturesToShowOnCards] =
-    useState<Array<string>>([]);
+  const [curentPictureToFind, setCurentPictureToFind] = useState<
+    string | number
+  >("");
+
   const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean | null>(null);
   const [gamesProgresion, setGamesProgresion] = useState<number>(0);
   const [gameOver, setGameOver] = useState<boolean>(false);
@@ -62,14 +63,43 @@ function FindPicturesByWord() {
       3
     );
     setChunkedImagesToShowOnCards(chunks);
+    setCurentPictureToFind(
+      pictureListSelected[
+        Math.floor(Math.random() * pictureListSelected.length)
+      ]
+    );
   }, [pictureListSelected]);
 
   function selectList(listSelected: string[]): void {
-    setPictureListSelected(listSelected);
+    const shuffedArray = shuffleArray(listSelected);
+    setPictureListSelected(shuffedArray.slice(0, 9));
   }
 
-  function handleCardClick(pictureName: string) {
-    console.log(pictureName);
+  function handleCardClick(pictureName: string): void {
+    if (pictureName === curentPictureToFind) {
+      setIsAnswerCorrect(true);
+      setTimeout(() => {
+        setGamesProgresion((prevCount) => prevCount + 1);
+        setCurentPictureToFind(
+          pictureListSelected[
+            Math.floor(Math.random() * pictureListSelected.length)
+          ]
+        );
+        setPictureListSelected((prevList) => shuffleArray(prevList));
+
+        if (gamesProgresion === 10) {
+          setGameOver(true);
+          setElapsedTime(endTimer());
+          setCurentPictureToFind(0);
+        }
+        setIsAnswerCorrect(null);
+      }, 500);
+    } else {
+      setIsAnswerCorrect(false);
+      setTimeout(() => {
+        setIsAnswerCorrect(null);
+      }, 500);
+    }
   }
 
   return (
@@ -107,15 +137,7 @@ function FindPicturesByWord() {
                   className="card"
                   style={{ backgroundColor: "rgb(151, 212, 159)" }}
                 >
-                  <p className="card__text">
-                    {
-                      pictureListSelected[
-                        Math.floor(
-                          Math.random() * shuffledPicturesToShowOnCards.length
-                        )
-                      ]
-                    }
-                  </p>
+                  <p className="card__text">{curentPictureToFind}</p>
                 </Col>
               </Row>
               <div className="image-grid-container">
@@ -128,7 +150,13 @@ function FindPicturesByWord() {
                           className="image-grid-item"
                         >
                           {imageMap[name] ? (
-                            <img src={imageMap[name]} alt={name} />
+                            <img
+                              onClick={() => {
+                                handleCardClick(name);
+                              }}
+                              src={imageMap[name]}
+                              alt={name}
+                            />
                           ) : (
                             <p>Image not found for {name}</p>
                           )}
@@ -155,3 +183,6 @@ function FindPicturesByWord() {
 }
 
 export default FindPicturesByWord;
+function slice(listSelected: string[], arg1: number): (string | number)[] {
+  throw new Error("Function not implemented.");
+}

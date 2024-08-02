@@ -8,7 +8,7 @@ export const picturesToFindKitchen:string[] = [
     'sakute',
     'saldytuvas',
     'saukstas',
-    // 'stikline'
+    'stikline'
 ];
 
 export const picturesToFindLivingRoom:string[] = [
