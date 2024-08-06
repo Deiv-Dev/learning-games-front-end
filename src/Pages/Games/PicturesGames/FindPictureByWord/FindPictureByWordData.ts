@@ -1,14 +1,18 @@
-export const picturesToFindKitchen:string[] = [
-    'bliudas',
-    'lekste',
-    'mikrobange',
-    'orkaite',
-    'peilis',
-    'puodelis',
-    'sakute',
-    'saldytuvas',
-    'saukstas',
-    'stikline'
+export const picturesToFindKitchen: string[] = [
+    'Bliūdas',
+    'Lėkštė',
+    'Mikrobangų krosnelė',
+    'Orkaitė',
+    'Peilis',
+    'Puodelis',
+    'Šakutė',
+    'Šaldytuvas',
+    'Šaukštas',
+    'Stiklinė',
+    'Šluota',
+    'Pjaustymo lenta',
+    'Skrudintuvas',
+    'Maišytuvas'
 ];
 
 export const picturesToFindLivingRoom:string[] = [
