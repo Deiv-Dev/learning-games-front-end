@@ -5,6 +5,7 @@ import FindNumberByWord from "./Pages/Games/NumberGames/FindNumberByWord/FindNum
 import FindAlphabetLetters from "./Pages/Games/LettersGames/FindLetters/FindAlphabetLetters";
 import FindPicturesByWord from "./Pages/Games/PicturesGames/FindPictureByWord/FindPictureByWord";
 import "bootstrap/dist/css/bootstrap.min.css";
+import FindColorByWord from "./Pages/Games/ColorGames/FindColors/FindColorByWord";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           path="/find-alphabet-letters"
           element={<FindAlphabetLetters />}
         />
+        <Route path="/find-color-by-word" element={<FindColorByWord />} />
         <Route path="/find-picture-by-word" element={<FindPicturesByWord />} />
       </Routes>
     </Router>

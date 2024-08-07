@@ -25,7 +25,7 @@ function HomePage() {
         </Row>
         <Row>
           <Col className="select-game__selector">
-            <Link to="/find-number-by-word">
+            <Link to="/find-color-by-word">
               <Button className="select-game__text" variant="primary">
                 Žaidimai su spalvom
               </Button>
