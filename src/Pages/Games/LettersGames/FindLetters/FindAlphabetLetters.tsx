@@ -10,7 +10,7 @@ import { alphabet } from "./FindAlphabetLettersData";
 
 import {
   addCurrentAnswerToArray,
-  chunkNumberArrayToSmallerParts,
+  chunkArrayToSmallerParts,
   shuffleArray,
 } from "../../../../Helpers/ArrayHelper";
 import { getRandomLightColor } from "../../../../Helpers/RandomColorGeneratorHelper";
@@ -23,7 +23,7 @@ function FindAlphabetLetters() {
   const [shuffledLettersToShowOnCards, setShuffledLettersToShowOnCards] =
     useState<Array<string | number>>([]);
   const [chunkedLettersToShowOnCards, setChunkedLettersToShowOnCards] =
-    useState<number[][]>([]);
+    useState<(string | number)[][]>([]);
   const [cardsBackgroundColors, setCardsBackgroundColors] = useState<string[]>(
     []
   );
@@ -51,7 +51,7 @@ function FindAlphabetLetters() {
 
   useEffect(() => {
     setChunkedLettersToShowOnCards(() =>
-      chunkNumberArrayToSmallerParts(shuffledLettersToShowOnCards, 3)
+      chunkArrayToSmallerParts(shuffledLettersToShowOnCards, 3)
     );
   }, [shuffledLettersToShowOnCards]);
 

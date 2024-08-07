@@ -1,4 +1,4 @@
-export function chunkNumberArrayToSmallerParts(
+export function chunkArrayToSmallerParts(
   arrayToSplitToChunks: Array<string | number>,
   howManyValuesInChunk: number
 ): number[][] {

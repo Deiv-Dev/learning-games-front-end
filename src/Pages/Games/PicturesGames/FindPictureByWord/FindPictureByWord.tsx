@@ -20,8 +20,7 @@ import "./FindPictureByWordStyles.scss";
 interface ImageMap {
   [key: string]: string;
 }
-
-const FindPicturesByWord = () => {
+function FindPicturesByWord() {
   const [pictureListSelected, setPictureListSelected] = useState<
     Array<string | number>
   >([]);
@@ -181,7 +180,7 @@ const FindPicturesByWord = () => {
       </div>
     </>
   );
-};
+}
 
 export default FindPicturesByWord;
 function slice(listSelected: string[], arg1: number): (string | number)[] {
