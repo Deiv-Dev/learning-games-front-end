@@ -10,7 +10,7 @@ import { alphabet } from "./FindAlphabetLettersData";
 
 import {
   addCurrentAnswerToArray,
-  chunkArrayToSmallerParts,
+  chunkNumberArrayToSmallerParts,
   shuffleArray,
 } from "../../../../Helpers/ArrayHelper";
 import { getRandomLightColor } from "../../../../Helpers/RandomColorGeneratorHelper";
@@ -51,7 +51,7 @@ function FindAlphabetLetters() {
 
   useEffect(() => {
     setChunkedLettersToShowOnCards(() =>
-      chunkArrayToSmallerParts(shuffledLettersToShowOnCards, 3)
+      chunkNumberArrayToSmallerParts(shuffledLettersToShowOnCards, 3)
     );
   }, [shuffledLettersToShowOnCards]);
 

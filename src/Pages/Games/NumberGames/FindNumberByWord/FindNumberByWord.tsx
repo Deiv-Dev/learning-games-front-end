@@ -13,7 +13,7 @@ import {
 
 import {
   addCurrentAnswerToArray,
-  chunkArrayToSmallerParts,
+  chunkNumberArrayToSmallerParts,
   shuffleArray,
 } from "../../../../Helpers/ArrayHelper";
 import { getRandomLightColor } from "../../../../Helpers/RandomColorGeneratorHelper";
@@ -21,7 +21,7 @@ import { getRandomLightColor } from "../../../../Helpers/RandomColorGeneratorHel
 import { startTimer, endTimer } from "../../../../Helpers/CountTimeHelper";
 import "./FindNumberByWordStyles.scss";
 
-function FindNumberByWord() {
+const FindNumberByWord = () => {
   const [currentNumberToFind, setCurrentNumberToFind] = useState<number>(0);
   const [shuffledNumbersToShowOnCards, setShuffledNumbersToShowOnCards] =
     useState<Array<string | number>>([]);
@@ -54,7 +54,7 @@ function FindNumberByWord() {
 
   useEffect(() => {
     setChunkedNumbersToShowOnCards(() =>
-      chunkArrayToSmallerParts(shuffledNumbersToShowOnCards, 3)
+      chunkNumberArrayToSmallerParts(shuffledNumbersToShowOnCards, 3)
     );
   }, [shuffledNumbersToShowOnCards]);
 
@@ -108,6 +108,6 @@ function FindNumberByWord() {
       )}
     </div>
   );
-}
+};
 
 export default FindNumberByWord;
